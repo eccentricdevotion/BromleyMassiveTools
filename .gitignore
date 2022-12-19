@@ -1,0 +1,33 @@
+# osx noise
+.DS_Store
+profile
+
+# xcode noise
+build/*
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+*.xcworkspace
+xcuserdata
+
+# vscode
+.vscode/*
+
+# svn & cvs
+.svn
+CVS
+/target/
+/bin/
+
+# other stuff
+.classpath
+.project
+.settings
+nb-configuration.xml
+
+.idea/
+*.iml
+_site/

@@ -1,0 +1,43 @@
+author: eccentric_nz
+description:
+  An assortment of useful tools for your server, including: explosion healer, ore announcer, solar furnace, /home command, /top command
+main: me.eccentric_nz.bromleymassivetools.BromleyMassiveTools
+name: BromleyMassiveTools
+load: POSTWORLD
+version: 1.1.0
+api-version: 1.18
+website: http://tardisjenkins.duckdns.org:8080/job/bromleymassivetools
+dev-url: http://tardisjenkins.duckdns.org:8080/job/bromleymassivetools
+permissions:
+  bromleymassivetools.use:
+    description: Allow players to use BromleyMassiveTools commands.
+    default: true
+  solarfurnace.place:
+    description: Give players the ability to create solar furnaces by placing a daylight dector on top of a furnace.
+    default: op
+commands:
+  heal:
+    description: Heals players.
+    usage: /<command>
+    permission: bromleymassivetools.use
+    permission-message: You don't have the permission <permission> to use this command
+  home:
+    description: Teleports players back to their bed.
+    usage: /<command>
+    permission: bromleymassivetools.use
+    permission-message: You don't have the permission <permission> to use this command
+  light:
+    description: Give players a light block with the specified light level.
+    usage: /<command> [light level]
+    permission: bromleymassivetools.use
+    permission-message: You don't have the permission <permission> to use this command
+  top:
+    description: Teleports players to open space above their current location.
+    usage: /<command>
+    permission: bromleymassivetools.use
+    permission-message: You don't have the permission <permission> to use this command
+  back:
+    description: Teleports players to their last death location.
+    usage: /<command>
+    permission: bromleymassivetools.use
+    permission-message: You don't have the permission <permission> to use this command
