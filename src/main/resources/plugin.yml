@@ -1,11 +1,11 @@
 author: eccentric_nz
 description:
-  An assortment of useful tools for your server, including: explosion healer, ore announcer, solar furnace, /home command, /top command
+  An assortment of useful tools for your server, including: explosion healer, ore announcer, solar furnace, /home command, /top command, /back command
 main: me.eccentric_nz.bromleymassivetools.BromleyMassiveTools
 name: BromleyMassiveTools
 load: POSTWORLD
-version: 1.1.0
-api-version: 1.18
+version: 1.2.0
+api-version: '1.20'
 website: http://tardisjenkins.duckdns.org:8080/job/bromleymassivetools
 dev-url: http://tardisjenkins.duckdns.org:8080/job/bromleymassivetools
 permissions:
@@ -22,6 +22,7 @@ commands:
     permission: bromleymassivetools.use
     permission-message: You don't have the permission <permission> to use this command
   home:
+    aliases: [bed]
     description: Teleports players back to their bed.
     usage: /<command>
     permission: bromleymassivetools.use

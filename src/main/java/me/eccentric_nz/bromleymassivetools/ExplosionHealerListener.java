@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.sign.Side;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,7 +16,8 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ExplosionHealerListener implements Listener {
@@ -44,15 +46,19 @@ public class ExplosionHealerListener implements Listener {
             return;
         }
         isRestoring = true;
-        Iterator<Block> blockIterator = event.blockList().iterator();
-        while (blockIterator.hasNext()) {
-            Block block = blockIterator.next();
+        for (Block block : event.blockList()) {
             if (block.getType() != Material.AIR) {
                 restoreBlock(block);
             }
         }
         event.setYield(plugin.getConfig().getInt("explosions.yield"));
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> isRestoring = false, plugin.getConfig().getInt("explosions.delay.max"));
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+            isRestoring = false;
+            // remove dropped items
+            for (Entity e : event.getLocation().getWorld().getNearbyEntities(event.getLocation(), 16, 16, 16, (d) -> d.getType() == EntityType.DROPPED_ITEM)) {
+                e.remove();
+            }
+        }, plugin.getConfig().getInt("explosions.delay.max"));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -65,9 +71,7 @@ public class ExplosionHealerListener implements Listener {
             return;
         }
         isRestoring = true;
-        Iterator<Block> blockIterator = event.blockList().iterator();
-        while (blockIterator.hasNext()) {
-            Block next = blockIterator.next();
+        for (Block next : event.blockList()) {
             if (next.getType() != Material.AIR) {
                 restoreBlock(next);
             }
@@ -89,8 +93,9 @@ public class ExplosionHealerListener implements Listener {
         int min = plugin.getConfig().getInt("explosions.delay.min");
         int max = plugin.getConfig().getInt("explosions.delay.max");
         BlockState state = block.getState();
-        String[] signLines = state instanceof Sign ? ((Sign) state).getLines() : null;
-        ItemStack[] items = state instanceof InventoryHolder ? ((InventoryHolder) state).getInventory().getContents() : null;
+        String[] signLinesFront = state instanceof Sign sign ? sign.getSide(Side.FRONT).getLines() : null;
+        String[] signLinesBack = state instanceof Sign sign ? sign.getSide(Side.BACK).getLines() : null;
+        ItemStack[] items = state instanceof InventoryHolder holder ? holder.getInventory().getContents() : null;
         if (items != null) {
             for (int i = 0; i < items.length; i++) {
                 if (items[i] != null) {
@@ -99,17 +104,35 @@ public class ExplosionHealerListener implements Listener {
             }
         }
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            state.update(true);
-            BlockState newState = block.getState();
-            // restore inventory contents & signs lines
-            if (signLines != null && newState instanceof Sign) {
-                Sign sign = (Sign) newState;
-                for (int i = 0; i < 4; i++) {
-                    sign.setLine(i, signLines[i]);
+            if (!state.getBlockData().isSupported(state.getBlock())) {
+                // restore later
+                plugin.getServer().getConsoleSender().sendMessage("BlockState [" + state.getType().toString() + "] would not be supported");
+                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, ()-> {
+                    state.update(true);
+                    BlockState newState = block.getState();
+                    // restore inventory contents & sign lines
+                    if (signLinesFront != null && newState instanceof Sign sign) {
+                        for (int i = 0; i < 4; i++) {
+                            sign.getSide(Side.FRONT).setLine(i, signLinesFront[i]);
+                            sign.getSide(Side.BACK).setLine(i, signLinesBack[i]);
+                        }
+                        sign.update();
+                    }
+                }, max);
+            } else {
+                // restore it now
+                state.update(true);
+                BlockState newState = block.getState();
+                // restore inventory contents & sign lines
+                if (signLinesFront != null && newState instanceof Sign sign) {
+                    for (int i = 0; i < 4; i++) {
+                        sign.getSide(Side.FRONT).setLine(i, signLinesFront[i]);
+                        sign.getSide(Side.BACK).setLine(i, signLinesBack[i]);
+                    }
+                    sign.update();
+                } else if (items != null && newState instanceof InventoryHolder holder) {
+                    holder.getInventory().setContents(items);
                 }
-                sign.update();
-            } else if (items != null && newState instanceof InventoryHolder) {
-                ((InventoryHolder) newState).getInventory().setContents(items);
             }
         }, min + random.nextInt(max - min));
     }
