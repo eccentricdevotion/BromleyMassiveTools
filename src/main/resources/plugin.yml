@@ -42,3 +42,9 @@ commands:
     usage: /<command>
     permission: bromleymassivetools.use
     permission-message: You don't have the permission <permission> to use this command
+  exit:
+    description: Stops the server
+    aliases: [ quit ]
+    usage: /<command>
+    permission: op
+    permission-message: You don't have the permission <permission> to use this command
