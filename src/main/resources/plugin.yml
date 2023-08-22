@@ -15,6 +15,9 @@ permissions:
   solarfurnace.place:
     description: Give players the ability to create solar furnaces by placing a daylight dector on top of a furnace.
     default: op
+  profession.change:
+    description: Give players the ability to change villager professions.
+    default: op
 commands:
   heal:
     description: Heals players.

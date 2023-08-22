@@ -8,4 +8,6 @@ explosions:
     min: 60
     max: 140
   yield: 0
-
+profession:
+  consume: true
+  message: false

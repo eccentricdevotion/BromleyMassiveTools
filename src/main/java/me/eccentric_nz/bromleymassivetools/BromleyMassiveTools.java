@@ -51,6 +51,7 @@ public class BromleyMassiveTools extends JavaPlugin {
         pm.registerEvents(new OreAnnouncerListener(this), this);
         pm.registerEvents(new SolarFurnaceListener(this), this);
         pm.registerEvents(new DeathListener(), this);
+        pm.registerEvents(new ProfessionListener(this), this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new SolarFurnaceRunnable(this), 100L, 202L);
         // load commands
         BromleyMassiveToolsCommand command = new BromleyMassiveToolsCommand(this);
