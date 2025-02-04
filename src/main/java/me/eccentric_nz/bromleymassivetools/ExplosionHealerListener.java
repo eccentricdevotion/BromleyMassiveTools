@@ -33,9 +33,6 @@ public class ExplosionHealerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent event) {
         Entity entity = event.getEntity();
-        if (entity == null) {
-            return;
-        }
         if ((event.getEntityType() == EntityType.PRIMED_TNT || event.getEntityType() == EntityType.MINECART_TNT) && !plugin.getConfig().getBoolean("restore.tnt")) {
             return;
         }
@@ -106,7 +103,7 @@ public class ExplosionHealerListener implements Listener {
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             if (!state.getBlockData().isSupported(state.getBlock())) {
                 // restore later
-                plugin.getServer().getConsoleSender().sendMessage("BlockState [" + state.getType().toString() + "] would not be supported");
+                plugin.getServer().getConsoleSender().sendMessage("BlockState [" + state.getType() + "] would not be supported");
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, ()-> {
                     state.update(true);
                     BlockState newState = block.getState();
