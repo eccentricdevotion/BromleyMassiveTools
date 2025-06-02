@@ -33,7 +33,7 @@ public class ExplosionHealerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent event) {
         Entity entity = event.getEntity();
-        if ((event.getEntityType() == EntityType.PRIMED_TNT || event.getEntityType() == EntityType.MINECART_TNT) && !plugin.getConfig().getBoolean("restore.tnt")) {
+        if ((event.getEntityType() == EntityType.TNT || event.getEntityType() == EntityType.TNT_MINECART) && !plugin.getConfig().getBoolean("restore.tnt")) {
             return;
         }
         if (entity instanceof Creeper && !plugin.getConfig().getBoolean("explosions.restore.creeper")) {
@@ -52,7 +52,7 @@ public class ExplosionHealerListener implements Listener {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             isRestoring = false;
             // remove dropped items
-            for (Entity e : event.getLocation().getWorld().getNearbyEntities(event.getLocation(), 16, 16, 16, (d) -> d.getType() == EntityType.DROPPED_ITEM)) {
+            for (Entity e : event.getLocation().getWorld().getNearbyEntities(event.getLocation(), 16, 16, 16, (d) -> d.getType() == EntityType.ITEM)) {
                 e.remove();
             }
         }, plugin.getConfig().getInt("explosions.delay.max"));

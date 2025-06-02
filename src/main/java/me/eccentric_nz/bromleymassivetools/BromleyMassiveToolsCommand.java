@@ -23,7 +23,7 @@ public class BromleyMassiveToolsCommand implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("heal")) {
             if (sender instanceof Player player) {
                 // restore full health & hunger
-                player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
+                player.setHealth(player.getAttribute(Attribute.MAX_HEALTH).getDefaultValue());
                 player.setFoodLevel(20);
             } else {
                 sender.sendMessage(plugin.pluginName + "Command can only be used by a player!");

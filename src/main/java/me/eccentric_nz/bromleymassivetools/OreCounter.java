@@ -12,13 +12,9 @@ public class OreCounter {
 
     private final BromleyMassiveTools plugin;
     private final HashSet<Location> counted = new HashSet<>();
-    private final BlockFace[] horizontalFaces = {BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH,
-            BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_EAST, BlockFace.NORTH_WEST, BlockFace.DOWN,
-            BlockFace.UP};
-    private final BlockFace[] upperFaces = {BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH,
-            BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_EAST, BlockFace.NORTH_WEST, BlockFace.UP};
-    private final BlockFace[] LowerFaces = {BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH,
-            BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_EAST, BlockFace.NORTH_WEST, BlockFace.DOWN};
+    private final BlockFace[] horizontalFaces = {BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_EAST, BlockFace.NORTH_WEST, BlockFace.DOWN, BlockFace.UP};
+    private final BlockFace[] upperFaces = {BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_EAST, BlockFace.NORTH_WEST, BlockFace.UP};
+    private final BlockFace[] LowerFaces = {BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_EAST, BlockFace.NORTH_WEST, BlockFace.DOWN};
 
     public OreCounter(BromleyMassiveTools plugin) {
         this.plugin = plugin;
@@ -28,14 +24,7 @@ public class OreCounter {
         HashSet<Location> blocks = new HashSet<>();
         blocks.add(original.getLocation());
         cycleHorizontalFaces(original.getType(), original, blocks, true);
-        return blocks.size() >= 500 ? 500 : blocks.size();
-    }
-
-    public HashSet<Location> getAllLikeBlockLocations(Block original) {
-        HashSet<Location> blocks = new HashSet<>();
-        blocks.add(original.getLocation());
-        cycleHorizontalFaces(original.getType(), original, blocks, false);
-        return blocks;
+        return Math.min(blocks.size(), 500);
     }
 
     private void cycleHorizontalFaces(Material mat, Block original, Set<Location> blocks, boolean counting) {
@@ -55,14 +44,10 @@ public class OreCounter {
         findLikeBlocks(LowerFaces, lower, mat, blocks, counting);
     }
 
-    private void findLikeBlocks(BlockFace[] faces, Block passed, Material originalMaterial, Set<Location> blocks,
-                                boolean counting) {
+    private void findLikeBlocks(BlockFace[] faces, Block passed, Material originalMaterial, Set<Location> blocks, boolean counting) {
         for (BlockFace y : faces) {
             Block var = passed.getRelative(y);
-            if (var.getType() == originalMaterial && !blocks.contains(var.getLocation())
-                    && isAnnounceable(var.getLocation())
-                    || var.getType() == Material.REDSTONE_ORE && originalMaterial == Material.REDSTONE_ORE
-                    && isAnnounceable(var.getLocation()) && !blocks.contains(var.getLocation())) {
+            if (var.getType() == originalMaterial && !blocks.contains(var.getLocation()) && isAnnounceable(var.getLocation()) || var.getType() == Material.REDSTONE_ORE && originalMaterial == Material.REDSTONE_ORE && isAnnounceable(var.getLocation()) && !blocks.contains(var.getLocation())) {
                 if (counting) {
                     counted.add(var.getLocation());
                 }

@@ -26,37 +26,18 @@ public class OreBroadcast {
     }
 
     private ChatColor getBlockColour(Material material) {
-        switch (material) {
-            case DIAMOND_ORE:
-            case DEEPSLATE_DIAMOND_ORE:
-                return ChatColor.AQUA;
-            case REDSTONE_ORE:
-            case DEEPSLATE_REDSTONE_ORE:
-                return ChatColor.RED;
-            case GOLD_ORE:
-            case DEEPSLATE_GOLD_ORE:
-            case NETHER_GOLD_ORE:
-                return ChatColor.YELLOW;
-            case IRON_ORE:
-            case DEEPSLATE_IRON_ORE:
-                return ChatColor.GRAY;
-            case LAPIS_ORE:
-            case DEEPSLATE_LAPIS_ORE:
-                return ChatColor.BLUE;
-            case COAL_ORE:
-            case DEEPSLATE_COAL_ORE:
-                return ChatColor.DARK_GRAY;
-            case EMERALD_ORE:
-            case DEEPSLATE_EMERALD_ORE:
-                return ChatColor.GREEN;
-            case NETHER_QUARTZ_ORE:
-                return ChatColor.WHITE;
-            case COPPER_ORE:
-            case DEEPSLATE_COPPER_ORE:
-                return ChatColor.GOLD;
-            default:
-                return ChatColor.RESET;
-        }
+        return switch (material) {
+            case DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE -> ChatColor.AQUA;
+            case REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE -> ChatColor.RED;
+            case GOLD_ORE, DEEPSLATE_GOLD_ORE, NETHER_GOLD_ORE -> ChatColor.YELLOW;
+            case IRON_ORE, DEEPSLATE_IRON_ORE -> ChatColor.GRAY;
+            case LAPIS_ORE, DEEPSLATE_LAPIS_ORE -> ChatColor.BLUE;
+            case COAL_ORE, DEEPSLATE_COAL_ORE -> ChatColor.DARK_GRAY;
+            case EMERALD_ORE, DEEPSLATE_EMERALD_ORE -> ChatColor.GREEN;
+            case NETHER_QUARTZ_ORE -> ChatColor.WHITE;
+            case COPPER_ORE, DEEPSLATE_COPPER_ORE -> ChatColor.GOLD;
+            default -> ChatColor.RESET;
+        };
     }
 
     private String getFormattedName(Material material, int count) {

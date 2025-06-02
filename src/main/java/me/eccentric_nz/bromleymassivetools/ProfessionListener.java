@@ -1,7 +1,5 @@
 package me.eccentric_nz.bromleymassivetools;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -56,10 +54,10 @@ public class ProfessionListener implements Listener {
                         player.sendMessage("The villager was changed to a "+ profession);
                         // should the material be used up?
                         if (plugin.getConfig().getBoolean("profession.consume")) {
-                            int a = player.getInventory().getItemInHand().getAmount();
+                            int a = player.getInventory().getItemInMainHand().getAmount();
                             int a2 = a - 1;
                             if (a2 > 0) {
-                                player.getInventory().getItemInHand().setAmount(a2);
+                                player.getInventory().getItemInMainHand().setAmount(a2);
                             } else {
                                 player.getInventory().removeItem(new ItemStack(material, 1));
                             }

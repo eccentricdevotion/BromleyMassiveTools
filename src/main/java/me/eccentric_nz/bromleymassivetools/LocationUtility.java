@@ -17,7 +17,6 @@ public final class LocationUtility {
     private static final List<Material> DAMAGING_TYPES = Arrays.asList(Material.CACTUS, Material.CAMPFIRE, Material.FIRE, Material.MAGMA_BLOCK, Material.SOUL_CAMPFIRE, Material.SOUL_FIRE, Material.SWEET_BERRY_BUSH, Material.WITHER_ROSE);
     // The player can stand inside these materials
     private static final Set<Material> HOLLOW_MATERIALS = EnumSet.noneOf(Material.class);
-    private static final Set<Material> TRANSPARENT_MATERIALS = EnumSet.noneOf(Material.class);
 
     static {
         // Materials from Material.isTransparent()
@@ -26,8 +25,6 @@ public final class LocationUtility {
                 HOLLOW_MATERIALS.add(mat);
             }
         }
-        TRANSPARENT_MATERIALS.addAll(HOLLOW_MATERIALS);
-        TRANSPARENT_MATERIALS.add(Material.WATER);
         // Barrier is transparent, but solid
         HOLLOW_MATERIALS.remove(Material.BARRIER);
         // Light blocks can be passed through and are not considered transparent for some reason
@@ -45,33 +42,6 @@ public final class LocationUtility {
         }
         pos.sort(Comparator.comparingInt(a -> a.x * a.x + a.y * a.y + a.z * a.z));
         VOLUME = pos.toArray(new Vector3D[0]);
-    }
-
-    private LocationUtility() {
-    }
-
-    public static void setIsWaterSafe(final boolean isWaterSafe) {
-        if (isWaterSafe) {
-            HOLLOW_MATERIALS.add(Material.WATER);
-        } else {
-            HOLLOW_MATERIALS.remove(Material.WATER);
-        }
-    }
-
-    public static ItemStack convertBlockToItem(final Block block) {
-        return new ItemStack(block.getType(), 1);
-    }
-
-    public static Location getTarget(final LivingEntity entity) throws Exception {
-        Block block = null;
-        try {
-            block = entity.getTargetBlock(TRANSPARENT_MATERIALS, 300);
-        } catch (final NoSuchMethodError ignored) {
-        } // failing now :(
-        if (block == null) {
-            throw new Exception("Not targeting a block");
-        }
-        return block.getLocation();
     }
 
     public static boolean isBlockAboveAir(final World world, final int x, final int y, final int z) {
