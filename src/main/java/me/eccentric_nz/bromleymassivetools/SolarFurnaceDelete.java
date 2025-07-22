@@ -1,8 +1,5 @@
 package me.eccentric_nz.bromleymassivetools;
 
-import me.eccentric_nz.bromleymassivetools.BromleyMassiveTools;
-import me.eccentric_nz.bromleymassivetools.SolarFurnaceDatabase;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
