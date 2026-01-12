@@ -4,8 +4,8 @@ description:
 main: me.eccentric_nz.bromleymassivetools.BromleyMassiveTools
 name: BromleyMassiveTools
 load: POSTWORLD
-version: 1.2.0
-api-version: '1.20'
+version: 1.2.1
+api-version: '1.21'
 website: http://tardisjenkins.duckdns.org:8080/job/bromleymassivetools
 dev-url: http://tardisjenkins.duckdns.org:8080/job/bromleymassivetools
 permissions:
@@ -44,6 +44,11 @@ commands:
     description: Teleports players to their last death location.
     usage: /<command>
     permission: bromleymassivetools.use
+    permission-message: You don't have the permission <permission> to use this command
+  up:
+    description: Sets a glass block under the command sender's feet
+    usage: /<command>
+    permission: op
     permission-message: You don't have the permission <permission> to use this command
   exit:
     description: Stops the server
