@@ -2,7 +2,9 @@ package me.eccentric_nz.bromleymassivetools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -93,6 +95,11 @@ public class BromleyMassiveToolsCommand implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("exit")) {
             if (sender instanceof ConsoleCommandSender console) {
                 Bukkit.dispatchCommand(sender, "stop");
+            }
+        }
+        if (cmd.getName().equalsIgnoreCase("up")) {
+            if (sender instanceof Player player) {
+                player.getWorld().getBlockAt(player.getLocation()).getRelative(BlockFace.DOWN).setType(Material.GLASS);
             }
         }
         return false;
