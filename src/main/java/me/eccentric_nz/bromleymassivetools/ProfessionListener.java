@@ -54,7 +54,7 @@ public class ProfessionListener implements Listener {
                         Villager.Profession profession = lookup.get(material);
                         Villager villager = (Villager) entity;
                         villager.setProfession(profession);
-                        player.sendMessage("The villager was changed to a "+ profession);
+                        player.sendMessage("The villager was changed to a "+ profession.getKey().getKey());
                         // should the material be used up?
                         if (plugin.getConfig().getBoolean("profession.consume")) {
                             int a = player.getInventory().getItemInMainHand().getAmount();
