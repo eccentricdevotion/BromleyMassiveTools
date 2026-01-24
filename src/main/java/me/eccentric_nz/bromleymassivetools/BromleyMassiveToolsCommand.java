@@ -52,7 +52,11 @@ public class BromleyMassiveToolsCommand implements CommandExecutor {
                 UUID uuid = player.getUniqueId();
                 if (DeathTracker.DEATH_LOCATIONS.containsKey(uuid)) {
                     // teleport
-                    player.teleport(DeathTracker.DEATH_LOCATIONS.get(uuid));
+                    Location death = DeathTracker.DEATH_LOCATIONS.get(uuid);
+                    player.teleport(death);
+                    if (death.getWorld().getName().equals("TARDIS_TimeVortex")) {
+                        player.performCommand("tardis occupy");
+                    }
                 } else {
                     sender.sendMessage(plugin.pluginName + "You haven't died yet!");
                     return true;
