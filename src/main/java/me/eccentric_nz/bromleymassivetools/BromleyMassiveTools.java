@@ -1,5 +1,6 @@
 package me.eccentric_nz.bromleymassivetools;
 
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -54,10 +55,8 @@ public class BromleyMassiveTools extends JavaPlugin {
         pm.registerEvents(new ProfessionListener(this), this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new SolarFurnaceRunnable(this), 100L, 202L);
         // load commands
-        BromleyMassiveToolsCommand command = new BromleyMassiveToolsCommand(this);
-        for (String cmd : pdfFile.getCommands().keySet()) {
-            getCommand(cmd).setExecutor(command);
-        }
+        this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands ->
+                new CommandRegister(commands, this).addAll());
     }
 
     public String getPluginName() {
