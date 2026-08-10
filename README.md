@@ -1,2 +1,3 @@
 # BromleyMassiveTools
- Spigot/Paper plugin
+
+Paper plugin

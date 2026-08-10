@@ -1,5 +1,5 @@
 name: BromleyMassiveTools
-version: '1.2.1'
+version: '1.3.0'
 description: An assortment of useful tools for your server, including an explosion healer, ore announcer, solar furnace, /home command, /top command, /back command
 main: me.eccentric_nz.bromleymassivetools.BromleyMassiveTools
 api-version: '26.2'
